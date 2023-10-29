@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}PKP{% endblock %}
+
+{% block content %}
+
+<section class="container">
+    {% if request.user.is_anonymous %}
+        <h1>If you want to buy something in our shop first you have to register or login!</h1>
+    {% else %}
+        <h1>Hello {{ request.user.username|capfirst }} !</h1>
+    {% endif %}
+</section>
+
+{% endblock %}

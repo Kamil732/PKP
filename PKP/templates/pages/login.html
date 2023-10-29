@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<section class="container2">
+    <h1>Logowanie</h1>
+    <form method="POST"> {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Zaloguj się" class="login-input-btn">
+    <form>
+</section>
+{% endblock %}

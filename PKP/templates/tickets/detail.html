@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}PKP Tikcets Detail{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="container2">
+        <header class="head-title dotter">
+            <h1><strong>{{ ticket.from_place }} - {{ ticket.to_place }}</strong></h1>
+        </header>
+        <section>
+            {% if ticket.description %}
+                <div class="ticket-description dotter">
+                    <label for="description" id="description-lbl">Opis:</label>
+                    <p id="description">{{ ticket.description }}</p>
+                </div>
+            {%  endif %}
+            <div class="drive-plan dotter">
+                <p>Pociąg odjeżdża: {{ ticket.start|date:"d-m-Y" }}, o godzinie {{ ticket.start|date:"H:i" }}</p>
+                <p>Pociąg przyjeżdża: {{ ticket.end|date:"d-m-Y" }}, o godzinie {{ ticket.end|date:"H:i" }}</p>
+            </div>
+            <div class="tickets">
+                <p>Biletów ulgowych pozostało: {% if ticket.ticket_ulgowy %} {{ ticket.ticket_ulgowy }} {% else %} Nie ma w sprzedarzy {% endif %}</p>
+                <p>Biletów szybkich pozostało: {% if ticket.ticket_szybki %} {{ ticket.ticket_szybki }} {% else %} Nie ma w sprzedarzy  {% endif %}</p>
+                <p>Biletów dla dzieci pozostało: {% if ticket.ticket_dzieci %} {{ ticket.ticket_dzieci }} {% else %} Nie ma w sprzedarzy  {% endif %}</p>
+                <p class="dotter"></p>
+                {% if ticket.ticket_ulgowy  %} <p>Cena biletu ulgowego to: {{ ticket.ticket_ulgowy_price }} zł</p> {% endif %}
+                {% if ticket.ticket_szybki %} <p>Cena biletu szybkiego to: {{ ticket.ticket_szybki_price }} zł</p> {% endif %}
+                {% if ticket.ticket_dzieci %} <p>Cena biletu dla dzieci to: {{ ticket.ticket_dzieci_price }} zł</p> {% endif %}
+            </div>
+        </section>
+        <form action="{% url 'tickets:buyTicket' ticket.id %}">
+            <button class="btn">Wyierz bilet do kupna</button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

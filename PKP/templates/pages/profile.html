@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}About {{ user.username }}{% endblock %}
+
+{% block content %}
+
+<div class="container2">
+    <h1>Konto użystkownika "{{ user.username }}"</h1>
+    <section class="container">
+        <table class="user-date">
+            <tr>
+                <td>Nazwa użytkownika:</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td>Portfel:</td>
+                <td>{{ user.wallet }} zł</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td>Data utworzenia konta:</td>
+                <td>{{ user.date_joined|date:"d-m-Y | H:i" }}</td>
+            </tr>
+            <tr>
+                <td>ostatnie logowanie:</td>
+                <td>{{ user.last_login|date:"d-m-Y | H:i" }}</td>
+            </tr>
+        </table>
+        <a href="{% url 'accounts:edit' %}" style="margin-top: 20px;"><button class="btn">Edytuj profil</button></a>
+    </section>
+</div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Buy Ticket From {{ ticket.to_place }} To {{ ticket.from_place }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container2">
+        <header class="head-title dotter">
+            <h1><strong>{{ ticket.from_place }} - {{ ticket.to_place }}</strong></h1>
+        </header>
+        <section>
+            <div class="tickets">
+                <p>Biletów ulgowych pozostało: {% if ticket.ticket_ulgowy %} {{ ticket.ticket_ulgowy }} {% else %} Nie ma w sprzedarzy {% endif %}</p>
+                <p>Biletów szybkich pozostało: {% if ticket.ticket_szybki %} {{ ticket.ticket_szybki }} {% else %} Nie ma w sprzedarzy  {% endif %}</p>
+                <p>Biletów dla dzieci pozostało: {% if ticket.ticket_dzieci %} {{ ticket.ticket_dzieci }} {% else %} Nie ma w sprzedarzy  {% endif %}</p>
+                <p class="dotter"></p>
+                {% if ticket.ticket_ulgowy  %} <p>Cena biletu ulgowego to: {{ ticket.ticket_ulgowy_price }} zł</p> {% endif %}
+                {% if ticket.ticket_szybki %} <p>Cena biletu szybkiego to: {{ ticket.ticket_szybki_price }} zł</p> {% endif %}
+                {% if ticket.ticket_dzieci %} <p>Cena biletu dla dzieci to: {{ ticket.ticket_dzieci_price }} zł</p> {% endif %}
+            </div>
+            <form action="{% url 'tickets:buy' ticket.id %}" method="POST"> {% csrf_token %}
+                <div class="ticket-to-buy">
+                    <p>
+                        {% if ticket.ticket_ulgowy %}
+                            <label for="ulgowy">Ulgowy:</label>
+                            <input type="number" min="0" max="{{ ticket.ticket_ulgowy }}" name="ulgowy" id="ulgowy" value="0">
+                        {% endif %}
+                        {% if ticket.ticket_szybki %}
+                            <label for="szybki">Szybki:</label>
+                            <input type="number" min="0" max="{{ ticket.ticket_szybki }}" name="szybki" id="szybki" value="0">
+                        {% endif %}
+                        {% if ticket.ticket_dzieci %}
+                            <label for="dzieci">Dla dzieci:</label>
+                            <input type="number" min="0" max="{{ ticket.ticket_dzieci }}" name="dzieci" id="dzieci" value="0">
+                        {% endif %}
+                    </p>
+                </div>
+                <button class="btn">Kup bilet</button>
+            </form>            
+        </section>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% url 'tickets:index' as tickets_url %}
+{% url 'accounts:register' as register_url %}
+{% url 'accounts:login' as login_url %}
+{% url 'accounts:profile' as about_url %}
+{% url 'accounts:edit' as edit_url %}
+
+<ul class="nav-bar">
+    {% if request.path >= tickets_url %}
+        <li class="nav-bar-li" id="tickets-page"><a href="{{ tickets_url }}" style="background-color: #eeeeee; color: black; cursor: default;">Bilety</a></li>
+    {% else %}
+        <li class="nav-bar-li" id="tickets-page"><a href="{{ tickets_url }}">Bilety</a></li>
+    {% endif %}
+
+    {% if request.path == '/' %}
+        <li class="nav-bar-li" id="index-page"><a href="http://127.0.0.1:8000/" style="background-color: #eeeeee; color: black; cursor: default;">Główna</a></li>
+    {% else %}
+        <li class="nav-bar-li" id="index-page"><a href="http://127.0.0.1:8000/">Główna</a></li>
+    {% endif %}
+
+    {% if request.user.is_anonymous %}
+        {% if request.path == register_url %}
+            <li class="nav-bar-li" id="register-page"><a href="{{ register_url }}" style="background-color: #eeeeee; color: black; cursor: default;">Zarejestruj się</a></li>
+        {% else %}
+            <li class="nav-bar-li" id="register-page"><a href="{{ register_url }}">Zarejestruj się</a></li>
+        {% endif %}
+
+        {% if request.path == login_url %}
+            <li class="nav-bar-li" id="login-page"><a href="{{ login_url }}" style="background-color: #eeeeee; color: black;; cursor: default;">Zaloguj się</a></li>
+        {% else %}
+            <li class="nav-bar-li" id="login-page"><a href="{{ login_url }}">Zaloguj się</a></li>
+        {% endif %}
+    {% else %}
+        <li class="nav-bar-li"><a href="{% url 'accounts:logout' %}">Wyloguj się</a></li>
+        {% if request.path == about_url or request.path == edit_url %}
+            <li class="nav-bar-li" style="float: right;"><a href="{{ about_url }}" style="background-color: #eeeeee; color: black;; cursor: default;">Moje konto</a></li>
+        {% else %}
+            <li class="nav-bar-li" style="float: right;"><a href="{{ about_url }}">Moje konto</a></li>
+        {% endif %}
+    {% endif %}
+</ul>

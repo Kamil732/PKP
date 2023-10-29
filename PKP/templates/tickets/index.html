@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}PKP Tikcets{% endblock %}
+
+{% block content %}
+<section class="ticket-sorter">
+    <header>
+        <h1 style="font-weight: bold;" class="dotter">Wyszukaj bilet</h1>
+    </header>
+    <section>
+        <form method="POST"> {% csrf_token %}
+            <div class="ticket-sorter-option">
+                <label for="odjazd-place" id="odjazd-place-lbl">Odjazd z miejscowości: <label>
+                <input type="text" id="odjazd-place" class="ticket-sorter-input-text" name="odjazd-place">
+            </div>
+            <div class="ticket-sorter-option">
+                <label for="przyjazd-place" id="przyjaz-place-lbl">Przyjazd do miejscowości: <label>
+                <input type="text" id="przyjazd-place" class="ticket-sorter-input-text" name="przyjazd-place">
+            </div>
+            <div class="ticket-sorter-option">
+                <label for="date-time-wyjazd"" id="from-place-lbl">Od, data i godzina odjazdu: <label>
+                <input type="datetime-local" id="date-time-wyjazd" name="date-time-odjazd">
+            </div>
+            <div class="ticket-sorter-option">
+                <label for="date-time-przyjazd" id="to-place-lbl">Do, data i godzina przyjazdu: </label>
+                <input type="datetime-local" id="date-time-przyjazd" name="date-time-przyjazd">
+            </div>
+            <!-- <div class="ticket-sorter-option">
+                <label for="avarge-ticet-ulgowy-price" id="avarge-ticet-ulgowy-price-lbl">Maksymalna cena biletu ulgowego: </label>
+                 <br>
+                <p style="float: right;" id="range-value1">1000</p>
+                <input type="range" min="0" max="1500" value="1000" id="avarge-ticet-ulgowy-price" name="avarge-ticet-ulgowy-price" onmousemove="setValue()">
+            </div>
+            <div class="ticket-sorter-option">
+                <label for="avarge-ticet-szybki-price" id="avarge-ticet-szybki-price-lbl">Maksymalna cena biletu szybkiego: </label>
+                 <br>
+                <p style="float: right;">1000</p>
+                <input type="range" min="0" max="1500" value="1000" id="avarge-ticet-szybki-price" name="avarge-ticet-szybki-price" onmousemove="setValue()">
+            </div>
+            <div class="ticket-sorter-option">
+                <label for="avarge-ticet-dzieci-price" id="avarge-ticet-dzieci-price-lbl">Maksymalna cena biletu dla dzieci: </label>
+                 <br>
+                <p style="float: right;">1000</p>
+                <input type="range" min="0" max="1500" value="1000" id="avarge-ticet-dzieci-price" name="avarge-ticet-dzieci-price" onmousemove="setValue()">
+            </div> -->
+            <button class="btn" style="margin-top: 10px;">Znajdź</button>
+        </form>
+    </section>
+</section>
+
+<section class="container">
+    <ul id="tickets-ul">
+        {% if tickets %}
+            {% for ticket in tickets %}
+                <li>
+                    <h3>Pociąg odjeżdża z: {{ ticket.from_place|capfirst }}</h3>
+                    <h3>Pociąg przyjeżdża do: {{ ticket.to_place|capfirst }}</h3>
+                    <h3>Pociąg odjeżdża: {{ ticket.start|date:"d-m-Y" }}, o godzinie {{ ticket.start|date:"H:i" }}</h3>
+                    <h3>Pociąg przyjeżdża: {{ ticket.end|date:"d-m-Y" }}, o godzinie {{ ticket.end|date:"H:i" }}</h3>
+                    <h3>Ceny biletów i wszelkie informacje znajdziesz pod przyciskiem "Więcej"</h3>
+                    <form action="{% url 'tickets:detail' ticket.id %}">
+                        <button class="btn">Więcej</button>
+                    </form>
+                </li>
+            {% endfor %}
+        {% else %}
+            <h1><strong>Brak biletów w sprzedaży</strong></h1>
+        {% endif %}
+    </ul>
+</section>
+
+{% endblock %}
